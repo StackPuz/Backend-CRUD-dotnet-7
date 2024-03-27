@@ -24,8 +24,7 @@
                             <thead>
                                 <tr>
                                     <th>Product Name</th>
-                                    <th>Product Price</th>
-                                    <th>Actions</th>
+                                    <th>Price</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -33,17 +32,10 @@
                                 <tr>
                                     <td>@brandProduct.Name</td>
                                     <td class="text-right">@brandProduct.Price</td>
-                                    <td class="text-center">
-                                        <a class="btn btn-sm btn-secondary" href="/Product/Detail/@brandProduct.Id" title="View"><i class="fa fa-eye"></i></a>
-                                        <a class="btn btn-sm btn-primary" href="/Product/Edit/@brandProduct.Id" title="Edit"><i class="fa fa-pencil"></i></a>
-                                        <a class="btn btn-sm btn-danger" href="/Product/Delete/@brandProduct.Id" title="Delete"><i class="fa fa-times"></i></a>
-                                    </td>
                                 </tr>
                                 }
                             </tbody>
                         </table>
-                        <a class="btn btn-sm btn-primary" href="/Product/Create?product_brand_id=@brand.Id">Add</a>
-                        <hr />
                     </div>
                     <div class="col-12">
                         <a class="btn btn-sm btn-secondary" href="@ViewData["ref"]">Back</a>

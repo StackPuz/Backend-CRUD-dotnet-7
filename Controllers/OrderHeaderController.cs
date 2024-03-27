@@ -88,8 +88,7 @@ namespace App.Controllers
             .Select(e => new ViewModel.Detail.OrderHeaderOrderDetail {
                 No = e.orderDetail.No,
                 ProductName = e.product.Name,
-                Qty = e.orderDetail.Qty,
-                OrderId = e.orderDetail.OrderId
+                Qty = e.orderDetail.Qty
             }).ToListAsync();
             ViewData["ref"] = Util.getRef(Request, "/OrderHeader");
             return View(orderHeader);
@@ -138,6 +137,26 @@ namespace App.Controllers
                 CustomerId = item.CustomerId,
                 OrderDate = item.OrderDate
             };
+            ViewData["orderHeaderOrderDetails"] = await _context.OrderHeader
+            .Join(
+                _context.OrderDetail,
+                orderHeader => orderHeader.Id,
+                orderDetail => orderDetail.OrderId,
+                (orderHeader, orderDetail) => new { orderHeader, orderDetail }
+            )
+            .Join(
+                _context.Product,
+                combine => combine.orderDetail.ProductId,
+                product => product.Id,
+                (combined, product) => new { combined.orderHeader, combined.orderDetail, product }
+            )
+            .Where(e => e.orderHeader.Id == id)
+            .Select(e => new ViewModel.Edit.OrderHeaderOrderDetail {
+                No = e.orderDetail.No,
+                ProductName = e.product.Name,
+                Qty = e.orderDetail.Qty,
+                OrderId = e.orderDetail.OrderId
+            }).ToListAsync();
             ViewData["customers"] = await _context.Customer
             .Select(e => new ViewModel.Edit.Customer {
                 Id = e.Id,
@@ -173,6 +192,26 @@ namespace App.Controllers
                 }
                 return Redirect(WebUtility.UrlDecode(Request.Query["ref"].ToString()));
             }
+            ViewData["orderHeaderOrderDetails"] = await _context.OrderHeader
+            .Join(
+                _context.OrderDetail,
+                orderHeader => orderHeader.Id,
+                orderDetail => orderDetail.OrderId,
+                (orderHeader, orderDetail) => new { orderHeader, orderDetail }
+            )
+            .Join(
+                _context.Product,
+                combine => combine.orderDetail.ProductId,
+                product => product.Id,
+                (combined, product) => new { combined.orderHeader, combined.orderDetail, product }
+            )
+            .Where(e => e.orderHeader.Id == id)
+            .Select(e => new ViewModel.Edit.OrderHeaderOrderDetail {
+                No = e.orderDetail.No,
+                ProductName = e.product.Name,
+                Qty = e.orderDetail.Qty,
+                OrderId = e.orderDetail.OrderId
+            }).ToListAsync();
             ViewData["customers"] = await _context.Customer
             .Select(e => new ViewModel.Edit.Customer {
                 Id = e.Id,
@@ -195,6 +234,25 @@ namespace App.Controllers
                 CustomerName = e.customer.Name,
                 OrderDate = e.orderHeader.OrderDate
             }).FirstOrDefaultAsync(e => e.Id == id);
+            ViewData["orderHeaderOrderDetails"] = await _context.OrderHeader
+            .Join(
+                _context.OrderDetail,
+                orderHeader => orderHeader.Id,
+                orderDetail => orderDetail.OrderId,
+                (orderHeader, orderDetail) => new { orderHeader, orderDetail }
+            )
+            .Join(
+                _context.Product,
+                combine => combine.orderDetail.ProductId,
+                product => product.Id,
+                (combined, product) => new { combined.orderHeader, combined.orderDetail, product }
+            )
+            .Where(e => e.orderHeader.Id == id)
+            .Select(e => new ViewModel.Delete.OrderHeaderOrderDetail {
+                No = e.orderDetail.No,
+                ProductName = e.product.Name,
+                Qty = e.orderDetail.Qty
+            }).ToListAsync();
             ViewData["ref"] = Util.getRef(Request, "/OrderHeader");
             return View(orderHeader);
         }

@@ -68,8 +68,7 @@ namespace App.Controllers
             .Where(e => e.brand.Id == id)
             .Select(e => new ViewModel.Detail.BrandProduct {
                 Name = e.product.Name,
-                Price = e.product.Price,
-                Id = e.product.Id
+                Price = e.product.Price
             }).ToListAsync();
             ViewData["ref"] = Util.getRef(Request, "/Brand");
             return View(brand);
@@ -106,6 +105,19 @@ namespace App.Controllers
                 Id = item.Id,
                 Name = item.Name
             };
+            ViewData["brandProducts"] = await _context.Brand
+            .Join(
+                _context.Product,
+                brand => brand.Id,
+                product => product.BrandId,
+                (brand, product) => new { brand, product }
+            )
+            .Where(e => e.brand.Id == id)
+            .Select(e => new ViewModel.Edit.BrandProduct {
+                Name = e.product.Name,
+                Price = e.product.Price,
+                Id = e.product.Id
+            }).ToListAsync();
             ViewData["ref"] = Util.getRef(Request, "/Brand");
             return View(brand);
         }
@@ -135,6 +147,19 @@ namespace App.Controllers
                 }
                 return Redirect(WebUtility.UrlDecode(Request.Query["ref"].ToString()));
             }
+            ViewData["brandProducts"] = await _context.Brand
+            .Join(
+                _context.Product,
+                brand => brand.Id,
+                product => product.BrandId,
+                (brand, product) => new { brand, product }
+            )
+            .Where(e => e.brand.Id == id)
+            .Select(e => new ViewModel.Edit.BrandProduct {
+                Name = e.product.Name,
+                Price = e.product.Price,
+                Id = e.product.Id
+            }).ToListAsync();
             ViewData["ref"] = Util.getRef(Request, "/Brand");
             return View(model);
         }
@@ -147,6 +172,18 @@ namespace App.Controllers
                 Id = e.Id,
                 Name = e.Name
             }).FirstOrDefaultAsync(e => e.Id == id);
+            ViewData["brandProducts"] = await _context.Brand
+            .Join(
+                _context.Product,
+                brand => brand.Id,
+                product => product.BrandId,
+                (brand, product) => new { brand, product }
+            )
+            .Where(e => e.brand.Id == id)
+            .Select(e => new ViewModel.Delete.BrandProduct {
+                Name = e.product.Name,
+                Price = e.product.Price
+            }).ToListAsync();
             ViewData["ref"] = Util.getRef(Request, "/Brand");
             return View(brand);
         }
