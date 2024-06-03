@@ -1,5 +1,5 @@
 # Boilerplate-CRUD-dotnet-7
-Boilerplate Boilerplate CRUD Web App created with .NET 7 by [StackPuz](https://stackpuz.com).
+Boilerplate CRUD Web App created with .NET 7 by [StackPuz](https://stackpuz.com).
 
 ## Demo
 Checkout the live demo at https://demo.stackpuz.com
